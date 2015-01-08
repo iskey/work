@@ -33,6 +33,7 @@ int main()
 
 	g_data= malloc(DATA_NUM* sizeof(struct MyData**));
 
+	/*Initial global array.*/
 	for(i= 0; i< DATA_NUM; i++)
 	{
 		*(g_data+ i)= malloc(sizeof(struct MyData));
@@ -40,10 +41,11 @@ int main()
 		(*(g_data+ i))->decimal= (i*i+rand())%100 + 100;
 	}
 
+	/*Sort global array.*/
 	qsort(g_data, DATA_NUM, sizeof(struct MyData**), MyCompare);
 
+	/*Print global array.*/
 	printf("My data is :");
-
 	for(i= 0; i< DATA_NUM; i++)
 	{
 		struct MyData *t_data;
@@ -52,15 +54,17 @@ int main()
 	}
 	printf("\n");
 
+
 	struct MyData *key= malloc(sizeof(struct MyData));
 	struct MyData **Searched;
 
+	/*Get key to be searched.*/
 	printf("TIP: Please input the data you want to search:");
 	scanf("%d.%d",&key->Integer,&key->decimal);
 	printf("TIP: You want to search %d.%d\n",key->Integer, key->decimal);
 
+	/*Search key.*/
 	Searched= bsearch(&key, g_data, DATA_NUM, sizeof(struct MyData*), MyCompare);
-
 	if(Searched!= NULL)
 		printf("RESULT: Searched value is:%d.%d\n",(**Searched).Integer, (*Searched)->decimal);
 	else
