@@ -1,17 +1,17 @@
 #include "glib.h"
 #include "string.h"
 
-void print_str(void *str, void *data)
+void print_str(gpointer str, gpointer data)
 {
-	char *t_str= (char*) str;
+	gchar *t_str= (gchar*) str;
 	g_printf("%s\n", t_str);
 }
 
 gint str_compare(gconstpointer str1, gconstpointer str2)
 {
-	char *t_str1, *t_str2;
-	t_str1= (char*)str1;
-	t_str2= (char*)str2;
+	gchar *t_str1, *t_str2;
+	t_str1= (gchar*)str1;
+	t_str2= (gchar*)str2;
 
 	return strcmp(t_str1, t_str2);
 }
