@@ -9,7 +9,7 @@ EAT=$(pwd)/eat
 patch_idx=0
 
 echo "### V3.02.20 svn snapshot scripts ###" >$OUT
-echo "PATCH_DIR=\$\(pwd\)" >>$OUT
+echo "PATCH_DIR=\$(pwd)" >>$OUT
 
 #Prepare eat program for svn diff.
 touch $EAT
