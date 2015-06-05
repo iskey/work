@@ -7,14 +7,16 @@ OUT=$(pwd)/snapshot.sh
 PATCH_DIR=$(pwd)/patches
 EAT=$(pwd)/eat
 patch_idx=0
+mime_file_idx=0
 
 echo "### V3.02.20 svn snapshot scripts ###" >$OUT
-echo "PATCH_DIR=\$(pwd)" >>$OUT
+echo "PATCH_DIR=\$(pwd)/patches" >>$OUT
 
 #Prepare eat program for svn diff.
 touch $EAT
 chmod a+x $EAT
 
+rm $PATCH_DIR -fr
 mkdir -p $PATCH_DIR
 
 #Find svn repositories.
@@ -56,6 +58,17 @@ do
 		svn diff . >$PATCH_DIR/$patch_idx.patch
 		echo "patch -p0 <\$PATCH_DIR/$patch_idx.patch" >>$OUT
 	fi
+	
+	for mime_file in $PATCH_FILES
+	do
+		mime_type=$(svn pl $mime_file | sed -n '/svn:mime-type/p')
+		if [ ""x != "$mime_type"x ];then
+			let mime_file_idx+=1
+			cp $mime_file $PATCH_DIR/${mime_file_idx}_${mime_file##*/} -fr
+			echo "#==========" >>$OUT
+			echo "cp \$PATCH_DIR/${mime_file_idx}_${mime_file##*/} $mime_file" >>$OUT
+		fi
+	done
 	
 	echo "cd ->/dev/null" >> $OUT
 	echo "" >>$OUT
