@@ -20,12 +20,13 @@ rm $PATCH_DIR -fr
 mkdir -p $PATCH_DIR
 
 #Find svn repositories.
-svn_repos=$(find ./ -name '*.svn' -type d -print)
-#svn_repos=$(svn status | grep ^Perf | cut -d\' -f 2)
+#svn_repos=$(find ./ -name '*.svn' -type d -print)
+svn_repos="./ "
+svn_repos+=$(svn status | grep ^Perf | cut -d\' -f 2)
 for svn_repo in $svn_repos
 do
-	svn_dir=${svn_repo%/*}
-	#svn_dir=$svn_repo
+	#svn_dir=${svn_repo%/*}
+	svn_dir=$svn_repo
 	cd $svn_dir
 	#Get svn local copy's revision.
 	REV=$(svn info . | sed -n '/Revision:/p' | awk '{print $2}')
@@ -66,7 +67,7 @@ do
 			let mime_file_idx+=1
 			cp $mime_file $PATCH_DIR/${mime_file_idx}_${mime_file##*/} -fr
 			echo "#==========" >>$OUT
-			echo "cp \$PATCH_DIR/${mime_file_idx}_${mime_file##*/} $mime_file" >>$OUT
+			echo "cp \$PATCH_DIR/${mime_file_idx}_${mime_file##*/} $mime_file -f" >>$OUT
 		fi
 	done
 	
