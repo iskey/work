@@ -41,7 +41,7 @@ typedef struct {
 extern void MD5_Init(MD5_CTX *ctx);
 extern void MD5_Update(MD5_CTX *ctx, void *data, unsigned long size);
 extern void MD5_Final(unsigned char *result, MD5_CTX *ctx);
-extern void MD5_Str(char *str, unsigned char digest[16]);
-extern int 	MD5_File(char *filename, unsigned char digest[16]);
+extern void MD5_Str(const char *str, unsigned char digest[16]);
+extern int 	MD5_File(const char *filename, unsigned char digest[16]);
 
 #endif
