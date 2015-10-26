@@ -12,6 +12,26 @@ mime_file_idx=0
 echo "### V3.02.20 svn snapshot scripts ###" >$OUT
 echo "PATCH_DIR=\$(pwd)/patches" >>$OUT
 
+echo -e "\ncheck_svn_tree()
+{
+f_temp=\$1
+f_temp=\${f_temp%/*}
+if ! test -d \$f_temp
+then
+	while( ! test -d  \${f_temp%/*})
+	do
+		f_last=\$f_temp
+		f_temp=\${f_temp%/*}
+		if [ \"\$f_last\" = \"\$f_temp\" ]
+		then
+			break
+		fi
+	done
+	echo \"will update \$f_temp\"
+	svn update \$f_temp
+fi
+}\n" >>$OUT
+
 #Prepare eat program for svn diff.
 touch $EAT
 chmod a+x $EAT
@@ -46,7 +66,8 @@ do
 		#Get changed file's revision.
 		file_rev=$(svn info $svn_file | sed -n '/Last Changed Rev:/p' | awk '{print $4}')
 		echo "#----------" >>$OUT
-		echo "svn revert $svn_file" >>$OUT		
+		echo "svn revert $svn_file >/dev/null 2>&1" >>$OUT
+		echo "check_svn_tree $svn_file" >>$OUT
 		echo "svn update -r $file_rev $svn_file" >>$OUT
 		echo "svn revert $svn_file" >>$OUT
 	done
