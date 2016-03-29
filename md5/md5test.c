@@ -40,10 +40,10 @@ int md5_test_file(const char *filename)
 
 	if(0== strcmp(md5_file, md5_sig))
 	{
-		//printf("MD5 check OK.\n");
+		printf("MD5 check OK.\n");
 	}
 	else{
-		//printf("MD5 check failed.\n");
+		printf("MD5 check failed.\n");
 		goto ERR;
 	}
 
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 #endif
 	
 	md5_test_file(argv[1]);
-	return -1;
+	//return -1;
 
 	int ret= MD5_File(argv[1], digest);
 
