@@ -51,9 +51,10 @@ do
 	#Get svn local copy's revision.
 	REV=$(svn info . | sed -n '/Revision:/p' | awk '{print $2}')
 	echo "cd $svn_dir"
-	echo "echo Cleaning Begin: $svn_dir" >>$OUT
 	echo "cd $svn_dir" >>$OUT
-	echo "svn st | grep '^?' | awk '{print $2}' | xargs rm -rf" >>$OUT
+	echo "echo Cleaning: $svn_dir" >>$OUT
+	echo "svn st | grep '^?' | awk '{print $2}' | xargs -I{} rm -rf '{}'" >>$OUT
+	echo "svn st --no-ignore | grep '^I' | awk '{print $2}' | xargs -I{} rm -rf '{}'" >>$OUT
 	echo "echo Reverting: $svn_dir" >>$OUT
 	echo "svn cleanup" >>$OUT
 	echo "svn revert . -R" >>$OUT
@@ -73,6 +74,10 @@ do
 		echo "svn update -r $file_rev $svn_file" >>$OUT
 		echo "svn revert $svn_file" >>$OUT
 	done
+	
+	#Clean again after revert.
+	echo "svn st | grep '^?' | awk '{print $2}' | xargs -I{} rm -rf '{}'" >>$OUT
+	echo "svn st --no-ignore | grep '^I' | awk '{print $2}' | xargs -I{} rm -rf '{}'" >>$OUT
 	
 	#Get temporary patches
 	PATCH_FILES=$(svn diff . --diff-cmd $EAT | sed -n '/Index:/p' | awk '{print $2}')
@@ -94,8 +99,6 @@ do
 		fi
 	done
 	
-	echo "echo Cleanning After Revert: $svn_dir" >>$OUT
-	echo "svn st | grep '^?' | awk '{print $2}' | xargs rm -rf" >>$OUT
 	echo "cd ->/dev/null" >> $OUT
 	echo "" >>$OUT
 	echo "###############">> $OUT
