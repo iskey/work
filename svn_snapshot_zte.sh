@@ -40,7 +40,7 @@ rm $PATCH_DIR -fr
 mkdir -p $PATCH_DIR
 
 #save build directory.
-echo "[ -d ./build ] && mv ./build ../snapshot_save_build" >> $OUT
+echo "[ -d ./build ] || mv ./build ../snapshot_save_build" >> $OUT
 echo "" >>$OUT
 echo "#==========" >>$OUT
 echo "" >>$OUT
@@ -115,4 +115,4 @@ done
 echo "" >>$OUT
 echo "#==========" >>$OUT
 echo "" >>$OUT
-echo "[ -d ./snapshot_save_build ] && mv ../snapshot_save_build ./build " >> $OUT
+echo "[ -d ./snapshot_save_build ] || mv ../snapshot_save_build ./build " >> $OUT
