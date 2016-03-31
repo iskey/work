@@ -39,6 +39,9 @@ chmod a+x $EAT
 rm $PATCH_DIR -fr
 mkdir -p $PATCH_DIR
 
+#save build directory.
+echo "[ -d ./build ] && mv ./build ../snapshot_save_build" >> $OUT
+
 #Find svn repositories.
 #svn_repos=$(find ./ -name '*.svn' -type d -print)
 svn_repos="./ "
@@ -103,3 +106,5 @@ do
 	cd - > /dev/null
 done
 
+#restore build directory.
+echo "[ -d ./snapshot_save_build ] && mv ../snapshot_save_build ./build " >> $OUT
