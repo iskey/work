@@ -16,9 +16,3 @@ for file in ${BB[@]}
 do
 	echo $file
 done
-
-echo ${AA[*]}
-
-#Get the depth of the array
-echo ${#AA[@]}
-echo ${#BB[@]}
