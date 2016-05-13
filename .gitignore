@@ -1,0 +1,10 @@
+*.o
+.svn
+*.ko
+*.cmd
+*.xls
+*.doc
+*.docx
+*.out
+*.log
+
