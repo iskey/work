@@ -115,4 +115,4 @@ done
 echo "" >>$OUT
 echo "#==========" >>$OUT
 echo "" >>$OUT
-echo "[ -d ../snapshot_save_build ] && mv ../snapshot_save_build ./build " >> $OUT
+echo "[ -d ./snapshot_save_build ] && mv ../snapshot_save_build ./build " >> $OUT
