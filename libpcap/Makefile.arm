@@ -1,18 +1,19 @@
 INC_PATH+= -I./libpcap/include
 LIB_PATH+= -L./libpcap/lib
 CFLAGS+=$(INC_PATH)
-LIBS+= -lpcap
-LDFLAGS+= $(INC_PATH) $(LIBS) $(LIB_PATH)
+LIBS+=-lpcap
+LDFLAGS+= $(LIB_PATH) $(LIBS) 
 CC=armeb-unknown-linux-gnueabi-gcc
+LD=ld
 TARGET	=	sniffer
 SRCS	=	sniffer.c
 OBJS	=	$(SRCS:.c=.o)
 
 $(TARGET): $(OBJS)
-	$(CC) $< $(LDFLAGS) -o $@
+	$(CC) $< $(LDFLAGS) --staitc -o $@ 
 
 .c:.o
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	@rm -fvr $(OBJS)
